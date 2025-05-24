@@ -1,8 +1,8 @@
 # Automated Strategic Recruiter Interaction Agent (Clara) - Project Documentation
 
 ## Project Overview
-**Author Contact:** wickramasinghemgdd@gmail.com
-**Project Goal:** Automate and improve recruiter interactions through strategic communication and data analysis.
+*   **Author Contact:** wickramasinghemgdd@gmail.com
+*   **Project Goal:** Automate and improve recruiter interactions through strategic communication and data analysis.
 
 ## Description
 
