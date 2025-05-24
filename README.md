@@ -6,7 +6,7 @@
 
 ## Description
 
-Clara is a project designed to streamline and enhance interactions between job seekers and recruiters. Leveraging a Google Gemini-powered chatbot and a robust backend, ASRIIA automates initial conversations, provides tailored information, tracks recruiter interest, and offers data-driven insights. The goal is to present a professional and engaging online presence that intelligently responds to recruiter inquiries, manages communication flow, and provides valuable analytics on recruiter engagement.
+Clara is a project designed to streamline and enhance interactions between job seekers and recruiters. Leveraging a Google Gemini-powered chatbot and a robust backend, Clara automates initial conversations, provides tailored information, tracks recruiter interest, and offers data-driven insights. The goal is to present a professional and engaging online presence that intelligently responds to recruiter inquiries, manages communication flow, and provides valuable analytics on recruiter engagement.
 
 ## Features
 
