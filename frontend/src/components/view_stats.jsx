@@ -159,10 +159,9 @@ export default function ViewStats({ triggerRefetch }) {
                       className="font-poppins"
                     >
                       <TableHeader>
-                        <TableColumn>RECRUITER</TableColumn>
+                        <TableColumn>USER</TableColumn>
                         <TableColumn>EMAIL</TableColumn>
-                        <TableColumn>COMPANY</TableColumn>
-                        <TableColumn>INTEREST</TableColumn>
+                        <TableColumn>ENGAGEMENT LEVEL</TableColumn>
                         <TableColumn>SUMMARY</TableColumn>
                         <TableColumn>OBJECTIONS</TableColumn>
                         <TableColumn>FOLLOW UP</TableColumn>
@@ -174,23 +173,22 @@ export default function ViewStats({ triggerRefetch }) {
                       >
                         {currentItems.map((item) => (
                           <TableRow key={item._id} className="text-black">
-                            <TableCell>{item.recruiterName || "N/A"}</TableCell>
+                            <TableCell>{item.userName || "N/A"}</TableCell>
                             <TableCell>{item.email || "N/A"}</TableCell>
-                            <TableCell>{item.company || "N/A"}</TableCell>
                             <TableCell>
                               <CircularProgress
                                 aria-label="Interest percentage"
                                 showValueLabel={true}
                                 size="lg"
-                                value={item.interestRate || 0}
+                                value={item.engagementPercentage || 0}
                                 color={
-                                  item.interestRate > 80
+                                  item.engagementPercentage > 80
                                     ? "secondary"
-                                    : item.interestRate > 60
+                                    : item.engagementPercentage > 60
                                       ? "success"
-                                      : item.interestRate > 40
+                                      : item.engagementPercentage > 40
                                         ? "warning"
-                                        : item.interestRate > 20
+                                        : item.engagementPercentage > 20
                                           ? "danger"
                                           : "danger"
                                 }
@@ -207,9 +205,9 @@ export default function ViewStats({ triggerRefetch }) {
                               />
                             </TableCell>
                             <TableCell>
-                              {item.reasonNoMatch ? (
+                              {item.objections ? (
                                 <ViewButton
-                                  contents={item.reasonNoMatch || "N/A"}
+                                  contents={item.objections || "N/A"}
                                   buttonName="View"
                                   Title="Reasons for No Match"
                                 />

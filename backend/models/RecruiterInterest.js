@@ -2,13 +2,12 @@ import mongoose from 'mongoose';
 
 const recruiterInterestSchema = new mongoose.Schema({
   sessionId: { type: String, required: true, unique: true },
-  interestRate: { type: Number, required: true },
-  recruiterName: { type: String },
-  company: { type: String },
+  engagementPercentage: { type: Number, required: true },
+  userName: { type: String },
   email: { type: String },
   summary: { type: String },
   followupSent: { type: Boolean, default: false },
-  reasonNoMatch: { type: String },
+  objections: { type: String },
 }, { timestamps: true });
 
 const RecruiterInterest = mongoose.model('RecruiterInterest', recruiterInterestSchema);

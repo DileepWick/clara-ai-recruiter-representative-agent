@@ -19,7 +19,7 @@ const sessions = new Map();
 
 // 💬 Route for regular chat messages with dynamic summary updates
 GPTRouter.post("/chat", async (req, res) => {
-  const { sessionId, prompt } = req.body;
+  const { sessionId, prompt ,userName , email} = req.body;
 
   if (!sessionId || typeof sessionId !== "string") {
     return res.status(400).json({ error: "Valid sessionId is required" });
@@ -44,6 +44,8 @@ GPTRouter.post("/chat", async (req, res) => {
       latestUserMessage: prompt,
       latestAIResponse: responseText,
       sessionId,
+      userName,
+      email,
     });
 
     // 💾 Save updated summary back to session

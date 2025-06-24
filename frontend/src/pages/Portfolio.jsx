@@ -32,6 +32,7 @@ import {
 import { User, Link } from "@heroui/react";
 import { Textarea, Avatar } from "@heroui/react";
 import ViewStats from "../components/view_stats.jsx";
+import { useAuth } from "../contexts/AuthContext";
 
 // Main all-in-one component
 export default function SimpleChatTest() {
@@ -46,13 +47,13 @@ export default function SimpleChatTest() {
   const [recruiterName, setRecruiterName] = useState("");
   const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
-
   const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [showInsightPanel, setShowInsightPanel] = useState(false);
   const messagesEndRef = useRef(null);
   const chatInputRef = useRef(null);
+  const { user, signOut } = useAuth();
 
   // Window size tracking for responsive design
   const [windowWidth, setWindowWidth] = useState(
@@ -66,6 +67,10 @@ export default function SimpleChatTest() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  
+
+
 
   // Predefined quick prompts for recruiters speaking with freshers/interns
   const quickPrompts = [
@@ -111,17 +116,30 @@ export default function SimpleChatTest() {
   // Initialize chat - API call
   const initializeChat = async () => {
     setLoading(true);
+    console.log("Initializing chat with session ID:", sessionId);
+    console.log("User data:", user.displayName, user.email);
+
+    const prompt = `
+- You are Clara, an AI recruiter representative created by Dileepa Dilshan to showcase their development skills to recruiters.
+- You are now interacting with a person named ${user?.displayName}.
+- You can use a short form for ${user?.displayName} for ease of use and friendliness and greet the user.
+- You are designed to assist ${user?.displayName} in their interest in Dileepa's skills by providing information about  skills, projects, and education.
+- You will maintain a friendly and professional tone throughout the conversation.
+- You will not ask for personal information such as phone numbers or addresses.
+- You will not engage in any conversation that is not relevant to the job search process.
+- You will not provide any information that is not related to the job search process.
+- You will provide short and concise answers to the user's questions and add emojis for a friendly touch.
+  `;
 
     try {
       // Call the initChat function and await result
-      const initialMessage = await initChat(sessionId);
+      const initialMessage = await initChat(sessionId, prompt);
 
       setChatHistory([{ type: "ai", response: initialMessage }]);
       setConversationSummary("");
       setInterestRate(0);
-      setRecruiterName("");
-      setCompany("");
-      setEmail("");
+      setRecruiterName(user?.displayName || "");
+      setEmail(user?.email || "");
     } catch (error) {
       console.error("Error in initializeChat:", error);
     } finally {
@@ -168,12 +186,17 @@ export default function SimpleChatTest() {
     setLoading(true);
 
     try {
-      const { result, summary } = await sendChatMessage(message, sessionId);
+      const { result, summary } = await sendChatMessage(
+        message,
+        sessionId,
+        user?.displayName,
+        user?.email
+      );
 
       setChatHistory((prev) => [...prev, { type: "ai", response: result }]);
       setConversationSummary(summary.summary);
-      setInterestRate(summary.interestRate);
-      setRecruiterName(summary.recruiterName);
+      setInterestRate(summary.engagementPercentage);
+      setRecruiterName(summary.userName);
       setCompany(summary.company);
       setEmail(summary.email);
     } catch (error) {
@@ -209,6 +232,17 @@ export default function SimpleChatTest() {
     const chatContainer = document.querySelector(".chat-messages-container");
     if (chatContainer) {
       chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+  };
+
+  // Handle sign out
+  const handleSignOut = async () => {
+    handleNewSession();
+    try {
+      await signOut();
+      // User will be redirected to login page automatically
+    } catch (error) {
+      console.error("Failed to sign out:", error);
     }
   };
 
@@ -286,16 +320,18 @@ export default function SimpleChatTest() {
                   )}
                   <ViewStats />
                   <Button
-                    onClick={handleNewSession}
-                    style={{
-                      backgroundColor: colors.accentPrimary,
-                      color: colors.textPrimary,
-                    }}
-                    varient="ghost"
                     size="sm"
-                    isIconOnly
+                    onClick={handleSignOut}
+                    style={{
+                      padding: "8px 16px",
+                      background: "#dc3545",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                    }}
                   >
-                    <RefreshCw size={18} />
+                    Sign Out
                   </Button>
                 </div>
               </div>
@@ -425,7 +461,7 @@ export default function SimpleChatTest() {
                               className="text-xs mt-1 text-right pr-2"
                               style={{ color: colors.textSecondary }}
                             >
-                              {recruiterName || "Recruiter"}
+                              You
                             </div>
                           </div>
                         ) : (
@@ -462,8 +498,14 @@ export default function SimpleChatTest() {
                           className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 ml-2"
                           style={{ backgroundColor: colors.accentTertiary }}
                         >
+                          {" "}
+                          <Avatar
+                            isBordered
+                            color="secondary"
+                            src={user.photoURL}
+                          />
                           <div className="text-white w-full h-full flex items-center justify-center font-bold">
-                            R
+                            You
                           </div>
                         </div>
                       )}
@@ -612,7 +654,7 @@ export default function SimpleChatTest() {
                     >
                       <User
                         avatarProps={{
-                          src: "",
+                          src: user.photoURL,
                         }}
                         description={
                           <Link
@@ -621,10 +663,10 @@ export default function SimpleChatTest() {
                             size="sm"
                             style={{ color: colors.accentSecondary }}
                           >
-                            {email || "Email not available"}
+                            {user?.email || "Email not available"}
                           </Link>
                         }
-                        name={recruiterName || "Name not available"}
+                        name={user?.displayName || "Name not available"}
                         className="text-white"
                       />
                     </motion.div>

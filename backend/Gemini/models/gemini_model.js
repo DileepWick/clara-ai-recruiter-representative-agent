@@ -11,7 +11,7 @@ const Gemini_model = genAI.getGenerativeModel({
 
 // Define the generation configurations
 const generationConfigurations = {
-  temperature: 1.2,
+  temperature: 1.0,
   topP: 0.1,
   topK: 10,
   maxOutputTokens: 8192,

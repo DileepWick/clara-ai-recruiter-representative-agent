@@ -1,14 +1,14 @@
 import axios from "axios";
-import { PORTFOLIO_BOT_PROMPT , BASE_URL} from "../../config.js";
+import { BASE_URL} from "../../config.js";
 
-export const initChat = async (sessionId) => {
+export const initChat = async (sessionId,prompt) => {
   try {
     // Initialize the chat session with the backend
     const sessionResponse = await axios.post(
       `${BASE_URL}/api/chat/init`,
       {
         sessionId: sessionId,
-        characterPrompt: PORTFOLIO_BOT_PROMPT,
+        characterPrompt: prompt,
       },
       {
         headers: {
