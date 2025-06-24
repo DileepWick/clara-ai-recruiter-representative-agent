@@ -111,34 +111,34 @@ export default function SimpleChatTest() {
 
   // Initialize chat - API call
   const initializeChat = async () => {
-    //     setLoading(true);
-    //     console.log("Initializing chat with session ID:", sessionId);
-    //     console.log("User data:", user.displayName, user.email);
-    //     const prompt = `
-    // - You are Clara, an AI recruiter representative created by Dileepa Dilshan to showcase their development skills to recruiters.
-    // - You are now interacting with a person named ${user?.displayName}.
-    // - You can use a short form for ${user?.displayName} for ease of use and friendliness and greet the user.
-    // - You are designed to assist ${user?.displayName} in their interest in Dileepa's skills by providing information about  skills, projects, and education.
-    // - You will maintain a friendly and professional tone throughout the conversation.
-    // - You will not ask for personal information such as phone numbers or addresses.
-    // - You will not engage in any conversation that is not relevant to the job search process.
-    // - You will not provide any information that is not related to the job search process.
-    // - You will provide short and concise answers to the user's questions and add emojis for a friendly touch.
-    //   `;
-    //     try {
-    //       // Call the initChat function and await result
-    //       const initialMessage = await initChat(sessionId, prompt);
-    //       setChatHistory([{ type: "ai", response: initialMessage }]);
-    //       setConversationSummary("");
-    //       setInterestRate(0);
-    //       setRecruiterName(user?.displayName || "");
-    //       setEmail(user?.email || "");
-    //     } catch (error) {
-    //       console.error("Error in initializeChat:", error);
-    //     } finally {
-    //       setLoading(false);
-    //       console.log("Chat initialization completed.");
-    //     }
+        setLoading(true);
+        console.log("Initializing chat with session ID:", sessionId);
+        console.log("User data:", user.displayName, user.email);
+        const prompt = `
+    - You are Clara, an AI recruiter representative created by Dileepa Dilshan to showcase their development skills to recruiters.
+    - You are now interacting with a person named ${user?.displayName}.
+    - You can use a short form for ${user?.displayName} for ease of use and friendliness and greet the user.
+    - You are designed to assist ${user?.displayName} in their interest in Dileepa's skills by providing information about  skills, projects, and education.
+    - You will maintain a friendly and professional tone throughout the conversation.
+    - You will not ask for personal information such as phone numbers or addresses.
+    - You will not engage in any conversation that is not relevant to the job search process.
+    - You will not provide any information that is not related to the job search process.
+    - You will provide short and concise answers to the user's questions and add emojis for a friendly touch.
+      `;
+        try {
+          // Call the initChat function and await result
+          const initialMessage = await initChat(sessionId, prompt);
+          setChatHistory([{ type: "ai", response: initialMessage }]);
+          setConversationSummary("");
+          setInterestRate(0);
+          setRecruiterName(user?.displayName || "");
+          setEmail(user?.email || "");
+        } catch (error) {
+          console.error("Error in initializeChat:", error);
+        } finally {
+          setLoading(false);
+          console.log("Chat initialization completed.");
+        }
   };
 
   // Create new session
@@ -241,17 +241,17 @@ export default function SimpleChatTest() {
 
   // Leonardo.ai inspired color variables
   const colors = {
-    background: "#000000", // Pure black for deep focus
-    backgroundSecondary: "#0a0a0a", // Section contrast
-    backgroundTertiary: "#111111", // Chat bubbles, inputs
+    background: "#020305", // Even deeper black
+    backgroundSecondary: "#080b0e", // Slightly lighter for contrast
+    backgroundTertiary: "#0e1217", // Cards and inputs, still very dark
 
-    accentPrimary: "#1ed3d3", // Muted cyan — cool & intelligent
-    accentSecondary: "#c026d3", // Soft magenta — futuristic but elegant
-    accentTertiary: "#10b981", // Calmer teal — for status/hover
+    accentPrimary: "#0fa59b", // Slightly darker teal
+    accentSecondary: "#8f46d5", // Slightly deeper violet
+    accentTertiary: "#1faa4d", // Darker lime green
 
-    border: "#1f1f1f", // Slightly more visible than before
-    textPrimary: "#e5e7eb", // Off-white for less eye strain
-    textSecondary: "#94a3b8", // Muted bluish-gray for metadata
+    border: "#161d2a", // Very dark gray-blue for subtle borders
+    textPrimary: "#e2e8f0", // Slightly muted white for eye comfort
+    textSecondary: "#7b8799", // Dark muted blue-gray for secondary text
   };
 
   return (
@@ -292,7 +292,7 @@ export default function SimpleChatTest() {
                 <div className="flex items-center gap-2">
                   <User
                     avatarProps={{
-                      src: "https://res.cloudinary.com/dbjgffukp/image/upload/v1750799324/Leonardo_Anime_XL_Anime_style_portrait_of_Clara_a_futuristic_A_3_b46p8r.jpg",
+                      src: "https://res.cloudinary.com/dbjgffukp/image/upload/v1750800029/Leonardo_Kino_XL_Animestyle_portrait_of_Clara_a_futuristic_fem_0_sugsfn.jpg",
                     }}
                     description="Recruiter Rep"
                     name="Clara"
@@ -341,21 +341,17 @@ export default function SimpleChatTest() {
               >
                 <div className="flex gap-2">
                   {quickPrompts.map((item, index) => (
-                    <Chip
+                    <Button
                       key={index}
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
                       onClick={() => handleQuickPromptClick(item.prompt)}
                       disabled={loading}
                       size="sm"
-                      style={{
-                        backgroundColor: colors.accentTertiary,
-                        color: colors.textPrimary,
-                        cursor: loading ? "not-allowed" : "pointer",
-                      }}
+                      className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
                     >
                       {item.text}
-                    </Chip>
+                    </Button>
                   ))}
                 </div>
               </div>
@@ -438,7 +434,7 @@ export default function SimpleChatTest() {
                           <Avatar
                             isBordered
                             color="secondary"
-                            src="https://res.cloudinary.com/dbjgffukp/image/upload/v1745491107/Leonardo_Phoenix_10_Create_a_futuristic_and_instantly_recogniz_2_opn01j.jpg"
+                            src="https://res.cloudinary.com/dbjgffukp/image/upload/v1750800029/Leonardo_Kino_XL_Animestyle_portrait_of_Clara_a_futuristic_fem_0_sugsfn.jpg"
                           />
                         </div>
                       )}
@@ -598,7 +594,7 @@ export default function SimpleChatTest() {
                       borderBottom: `1px solid ${colors.border}`,
                     }}
                   >
-                    <h3 className="font-medium">Insights</h3>
+                    <h3 className="font-medium">Insights About The On Going Chat</h3>
                     {isMobile && (
                       <motion.button
                         whileTap={{ scale: 0.9 }}
@@ -674,7 +670,7 @@ export default function SimpleChatTest() {
                       className="mb-4 flex justify-center overflow-hidden"
                     >
                       <Card
-                        className="w-[450px] h-[260px] border-none"
+                        className="w-[450px] h-[400px] border-none"
                         style={{
                           background: `linear-gradient(135deg, ${colors.accentPrimary}, ${colors.accentTertiary})`,
                           borderColor: colors.border,
@@ -688,13 +684,38 @@ export default function SimpleChatTest() {
                           style={{ overflow: "hidden" }}
                         >
                           <div
-                            className="w-full space-y-5"
+                            className="w-full space-y-4"
                             style={{ overflow: "hidden" }}
                           >
+                            {/* Clara Portrait Video */}
+                            <div className="flex justify-center">
+                              <div className="relative w-24 h-24 rounded-full overflow-hidden border-3 border-white/40 shadow-xl">
+                                <video
+                                  className="w-full h-full object-cover"
+                                  autoPlay
+                                  loop
+                                  muted
+                                  playsInline
+                                >
+                                  <source
+                                    src="https://res.cloudinary.com/dbjgffukp/video/upload/v1750802622/Generated_File_June_25_2025_-_3_11AM_eadqog.mp4"
+                                    type="video/mp4"
+                                  />
+                                  {/* Fallback image if video fails to load */}
+                                  <img
+                                    src="https://res.cloudinary.com/dbjgffukp/image/upload/v1750800029/Leonardo_Kino_XL_Animestyle_portrait_of_Clara_a_futuristic_fem_0_sugsfn.jpg"
+                                    alt="Clara Portrait"
+                                    className="w-full h-full object-cover"
+                                  />
+                                </video>
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+                              </div>
+                            </div>
+
                             {/* Timeline Header */}
                             <div className="text-center">
                               <h3 className="text-lg font-semibold text-white mb-1">
-                                Progress Timeline
+                                Engagement Progress
                               </h3>
                               <p className="text-white/70 text-xs">
                                 {Math.round(interestRate)}% Complete
@@ -710,70 +731,75 @@ export default function SimpleChatTest() {
                                 />
                               </div>
 
-                              {/* Timeline Markers with Images */}
-                              <div className="flex justify-between mt-2">
+                              {/* Timeline Markers with Scaling Profile Pictures */}
+                              <div className="flex justify-between items-end mt-4 px-2">
                                 {[
                                   {
-                                    milestone: 0,
-                                    image: "/images/beginner-icon.png",
-                                    label: "Beginner",
+                                    milestone: 20,
+                                    image:
+                                      "https://res.cloudinary.com/dbjgffukp/image/upload/v1750800029/Leonardo_Kino_XL_Animestyle_portrait_of_Clara_a_futuristic_fem_0_sugsfn.jpg",
+                                    label: "Casual",
+                                    size: "w-12 h-12", // Base size
                                   },
                                   {
                                     milestone: 50,
-                                    image: "/images/intermediate-icon.png",
-                                    label: "Intermediate",
+                                    image:
+                                      "https://res.cloudinary.com/dbjgffukp/image/upload/v1750800029/Leonardo_Kino_XL_Animestyle_portrait_of_Clara_a_futuristic_fem_0_sugsfn.jpg",
+                                    label: "Active",
+                                    size: "w-16 h-16", // Medium size
                                   },
                                   {
-                                    milestone: 100,
-                                    image: "/images/advanced-icon.png",
-                                    label: "Advanced",
+                                    milestone: 85,
+                                    image:
+                                      "https://res.cloudinary.com/dbjgffukp/image/upload/v1750800029/Leonardo_Kino_XL_Animestyle_portrait_of_Clara_a_futuristic_fem_0_sugsfn.jpg",
+                                    label: "Deep",
+                                    size: "w-20 h-20", // Largest size
                                   },
-                                ].map(({ milestone, image, label }, index) => (
-                                  <div
-                                    key={milestone}
-                                    className="flex flex-col items-center"
-                                  >
+                                ].map(
+                                  (
+                                    { milestone, image, label, size },
+                                    index
+                                  ) => (
                                     <div
-                                      className={`w-10 h-10 rounded-full border-2 flex items-center justify-center overflow-hidden transition-all duration-300 ${
-                                        interestRate >= milestone
-                                          ? "bg-white border-white"
-                                          : "bg-white/20 border-white/50"
-                                      }`}
+                                      key={milestone}
+                                      className="flex flex-col items-center"
                                     >
-                                      <img
-                                        src={image}
-                                        alt={label}
-                                        className={`w-6 h-6 object-contain transition-opacity duration-300 ${
+                                      <div
+                                        className={`${size} rounded-full border-3 flex items-center justify-center overflow-hidden transition-all duration-500 transform ${
                                           interestRate >= milestone
-                                            ? "opacity-100"
-                                            : "opacity-40"
+                                            ? "bg-white border-white shadow-lg scale-105"
+                                            : "bg-white/20 border-white/50 scale-95"
                                         }`}
-                                      />
+                                        style={{
+                                          filter:
+                                            interestRate >= milestone
+                                              ? "drop-shadow(0 4px 12px rgba(255,255,255,0.3))"
+                                              : "none",
+                                        }}
+                                      >
+                                        <img
+                                          src={image}
+                                          alt={label}
+                                          className={`w-full h-full object-cover rounded-full transition-all duration-500 ${
+                                            interestRate >= milestone
+                                              ? "opacity-100 brightness-110"
+                                              : "opacity-50 brightness-75"
+                                          }`}
+                                        />
+                                      </div>
+                                      <span
+                                        className={`text-xs mt-2 font-medium transition-all duration-300 ${
+                                          interestRate >= milestone
+                                            ? "text-white text-shadow"
+                                            : "text-white/60"
+                                        }`}
+                                      >
+                                        {label}
+                                      </span>
                                     </div>
-                                    <span className="text-xs text-white/70 mt-1 font-medium">
-                                      {label}
-                                    </span>
-                                  </div>
-                                ))}
+                                  )
+                                )}
                               </div>
-                            </div>
-
-                            {/* Current Status */}
-                            <div className="text-center">
-                              <Chip
-                                classNames={{
-                                  base: "border-1 border-white/30",
-                                  content:
-                                    "text-white/90 text-small font-semibold",
-                                }}
-                                variant="bordered"
-                              >
-                                {interestRate < 50
-                                  ? "Beginner Level"
-                                  : interestRate < 100
-                                    ? "Intermediate Level"
-                                    : "Advanced Level"}
-                              </Chip>
                             </div>
                           </div>
                         </CardBody>
