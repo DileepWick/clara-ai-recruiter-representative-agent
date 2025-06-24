@@ -348,7 +348,7 @@ export default function SimpleChatTest() {
                       onClick={() => handleQuickPromptClick(item.prompt)}
                       disabled={loading}
                       size="sm"
-                      className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
+                      
                     >
                       {item.text}
                     </Button>
@@ -368,18 +368,20 @@ export default function SimpleChatTest() {
                   <Input
                     ref={chatInputRef}
                     type="text"
-                    variant="flat"
+                    variant="underlined"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
-                    placeholder="Ask your question ..."
+                    placeholder="Anything on your mind to ask Clara?"
                     disabled={loading}
-                    className="text-black"
+                    className="text-black dark"
                   />
                   <Button
                     whileTap={{ scale: 0.9 }}
                     type="submit"
                     disabled={loading || !inputValue.trim()}
                     size="md"
+                    className="dark"
+
                     isIconOnly
                     style={{
                       backgroundColor: colors.accentPrimary,
@@ -510,7 +512,7 @@ export default function SimpleChatTest() {
                       <Avatar
                         isBordered
                         color="secondary"
-                        src="https://res.cloudinary.com/dbjgffukp/image/upload/v1745491107/Leonardo_Phoenix_10_Create_a_futuristic_and_instantly_recogniz_2_opn01j.jpg"
+                        src="https://res.cloudinary.com/dbjgffukp/image/upload/v1750800029/Leonardo_Kino_XL_Animestyle_portrait_of_Clara_a_futuristic_fem_0_sugsfn.jpg"
                       />
                     </div>
                     <div
@@ -594,7 +596,7 @@ export default function SimpleChatTest() {
                       borderBottom: `1px solid ${colors.border}`,
                     }}
                   >
-                    <h3 className="font-medium">Insights About The On Going Chat</h3>
+                    <Chip variant="dot" color="success" className="text-white">Insights Panel</Chip>
                     {isMobile && (
                       <motion.button
                         whileTap={{ scale: 0.9 }}
@@ -698,7 +700,7 @@ export default function SimpleChatTest() {
                                   playsInline
                                 >
                                   <source
-                                    src="https://res.cloudinary.com/dbjgffukp/video/upload/v1750802622/Generated_File_June_25_2025_-_3_11AM_eadqog.mp4"
+                                    src="https://res.cloudinary.com/dbjgffukp/video/upload/v1750806510/Generated_File_June_25_2025_-_4_18AM_fy310d.mp4"
                                     type="video/mp4"
                                   />
                                   {/* Fallback image if video fails to load */}
@@ -751,7 +753,7 @@ export default function SimpleChatTest() {
                                   {
                                     milestone: 85,
                                     image:
-                                      "https://res.cloudinary.com/dbjgffukp/image/upload/v1750800029/Leonardo_Kino_XL_Animestyle_portrait_of_Clara_a_futuristic_fem_0_sugsfn.jpg",
+                                      "https://res.cloudinary.com/dbjgffukp/image/upload/v1750806617/Screenshot_2025-06-25_044000_vo8obv.png",
                                     label: "Deep",
                                     size: "w-20 h-20", // Largest size
                                   },
@@ -814,12 +816,14 @@ export default function SimpleChatTest() {
                       className="p-3 mb-4"
                     >
                       <Textarea
-                        className="col-span-12 md:col-span-6 mb-6 md:mb-0 text-black"
+                        className="col-span-12 md:col-span-6 mb-6 md:mb-0 text-black dark"
                         label="Conversation Summary"
-                        labelPlacement=""
-                        placeholder="No summary available"
-                        variant="faded"
+                        labelPlacement="inside"
+                        placeholder="Summary of the conversation will appear here..."
+                        variant="flat"
                         value={conversationSummary}
+
+                      
                       />
                     </motion.div>
                   </div>
