@@ -113,7 +113,6 @@ function LoginPage() {
                 src="https://res.cloudinary.com/dbjgffukp/image/upload/v1750800029/Leonardo_Kino_XL_Animestyle_portrait_of_Clara_a_futuristic_fem_0_sugsfn.jpg"
                 alt="Clara Logo"
                 className="w-10 h-10 rounded-full object-cover"
-             
               />
             </div>
             <span
@@ -244,7 +243,7 @@ function LoginPage() {
         </div>
       </div>
 
-      {/* Right Panel - AI Art Showcase */}
+      {/* Right Panel - AI Art Showcase with Video */}
       <div className="hidden lg:block lg:w-1/2 relative overflow-hidden">
         <div
           className="absolute inset-0 bg-gradient-to-br opacity-20"
@@ -253,19 +252,37 @@ function LoginPage() {
           }}
         ></div>
 
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url('https://res.cloudinary.com/dbjgffukp/image/upload/v1750800029/Leonardo_Kino_XL_Animestyle_portrait_of_Clara_a_futuristic_fem_0_sugsfn.jpg')`,
-          }}
+        {/* Video Background */}
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
         >
-          <div
-            className="absolute inset-0"
-            style={{
-              background: `linear-gradient(135deg, ${colors.background}40, ${colors.backgroundSecondary}60, ${colors.background}80)`,
-            }}
-          ></div>
-        </div>
+          <source
+            src="https://res.cloudinary.com/dbjgffukp/video/upload/v1750806792/Generated_File_June_25_2025_-_3_06AM_ki8byn.mp4"
+            type="video/mp4"
+          />
+          <source
+            src="https://res.cloudinary.com/dbjgffukp/video/upload/v1750806792/Generated_File_June_25_2025_-_3_06AM_ki8byn.mp4"
+            type="video/webm"
+          />
+          {/* Fallback image if video fails to load */}
+          <img
+            src="https://res.cloudinary.com/dbjgffukp/image/upload/v1750800029/Leonardo_Kino_XL_Animestyle_portrait_of_Clara_a_futuristic_fem_0_sugsfn.jpg"
+            alt="AI Recruitment Analytics"
+            className="w-full h-full object-cover"
+          />
+        </video>
+
+        {/* Video Overlay */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(135deg, ${colors.background}40, ${colors.backgroundSecondary}60, ${colors.background}80)`,
+          }}
+        ></div>
 
         {/* Floating Elements */}
         <div className="absolute top-20 right-20 animate-pulse">

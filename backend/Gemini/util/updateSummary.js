@@ -34,13 +34,14 @@ async function updateSummary({
   - Reasons and provide exact engagement level as a percentage of the user in the summary. 
   - You mainly focus on the user's engagement , not the AI's response.
   - You can only increase the engagement level, never decrease it.
-  - You can only increase the engagement level by 1% to 15% at a time.
+  - You can only increase the engagement level by 1% - 20%.
+  - You need explicitly mention the engagement level.
   - When increasing the engagement level, consider the value of the latest user message and AI response.
   - Use a short bullet-point format for the overall summary. It should be concise but informative.
   - Include a timeline showing how engagement level changed over the session or across multiple sessions. Explain each change with its reason.
   - Use appropriate emojis and spacing to make the summary readable, friendly, and professional.
-  - Never assign the engagement level a value of 0% or 100%.The minimum allowed is 1%, and The maximum allowed is 99%.
   - Provide objections if Dileepa's skills don't match the user's interest.
+  
   - Do not use ** or any other markdown formatting.
   - You can not use asterisk at all.
   - You only need to provide the JSON object as a response.
@@ -97,6 +98,18 @@ async function updateSummary({
     //Convert the response to JSON object
     const JsonObject = extractJsonFromText(result.response.text());
 
+    //Check for engagement type
+    if(JsonObject.engagementPercentage >= 20 && JsonObject.engagementPercentage < 50){
+      console.log("Casual Engagement Activated");
+      JsonObject.casualEngagementFollowupSent = true;
+    }else if(JsonObject.engagementPercentage >= 50 && JsonObject.engagementPercentage < 80){
+      console.log("Active Engagement Activated");
+      JsonObject.activeEngagementFollowupSent = true;
+    }else if(JsonObject.engagementPercentage >= 80 && JsonObject.engagementPercentage < 100){
+      console.log("Deep Engagement Activated");
+      JsonObject.deepEngagementFollowupSent = true;
+    }
+
     //update the recruiter interest information in the database
     const recruiterData = {
       sessionId: sessionId,
@@ -105,6 +118,9 @@ async function updateSummary({
       objections: JsonObject.objections,
       userName: userName,
       email: email,
+      casualEngagementFollowupSent: JsonObject.casualEngagementFollowupSent || false,
+      activeEngagementFollowupSent: JsonObject.activeEngagementFollowupSent || false,
+      deepEngagementFollowupSent: JsonObject.deepEngagementFollowupSent || false
     };
 
     const saveResult = await saveOrUpdateRecruiterInterest(recruiterData);
@@ -119,8 +135,8 @@ async function updateSummary({
       if (
         recruiterData.engagementPercentage >= 50 &&
         recruiterData.email !== null &&
-        recruiterData.userName !== null &&
-        followUpStatus === false
+        recruiterData.userName !== null 
+        
       ) {
         console.log("Followup needed, sending summary to Make...🚀");
         const recruiterData = {
@@ -146,11 +162,11 @@ async function updateSummary({
       console.error("Error saving recruiter interest info:", saveResult.error);
     }
 
-    // //Send objections if has
-    // if(recruiterData.objections !== null){
-    //   console.log("Reason No Match:", recruiterData.objections);
-    //   SendObjection(recruiterData.objections,recruiterData.summary);
-    // }
+    //Send objections if has
+    if(recruiterData.objections !== null){
+      console.log("Reason No Match:", recruiterData.objections);
+      SendObjection(recruiterData.objections,recruiterData.summary);
+    }
 
     return JsonObject;
   } catch (error) {
