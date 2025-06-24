@@ -6,7 +6,7 @@ const genAI = new GoogleGenerativeAI(Gemini_API_KEY);
 
 // Get the Gemini model
 const Gemini_model = genAI.getGenerativeModel({
-  model: "gemini-2.0-flash",
+  model: "gemini-2.0-flash-exp",
 });
 
 // Define the generation configurations

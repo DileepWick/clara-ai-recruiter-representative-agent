@@ -68,10 +68,6 @@ export default function SimpleChatTest() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  
-
-
-
   // Predefined quick prompts for recruiters speaking with freshers/interns
   const quickPrompts = [
     {
@@ -115,37 +111,34 @@ export default function SimpleChatTest() {
 
   // Initialize chat - API call
   const initializeChat = async () => {
-    setLoading(true);
-    console.log("Initializing chat with session ID:", sessionId);
-    console.log("User data:", user.displayName, user.email);
-
-    const prompt = `
-- You are Clara, an AI recruiter representative created by Dileepa Dilshan to showcase their development skills to recruiters.
-- You are now interacting with a person named ${user?.displayName}.
-- You can use a short form for ${user?.displayName} for ease of use and friendliness and greet the user.
-- You are designed to assist ${user?.displayName} in their interest in Dileepa's skills by providing information about  skills, projects, and education.
-- You will maintain a friendly and professional tone throughout the conversation.
-- You will not ask for personal information such as phone numbers or addresses.
-- You will not engage in any conversation that is not relevant to the job search process.
-- You will not provide any information that is not related to the job search process.
-- You will provide short and concise answers to the user's questions and add emojis for a friendly touch.
-  `;
-
-    try {
-      // Call the initChat function and await result
-      const initialMessage = await initChat(sessionId, prompt);
-
-      setChatHistory([{ type: "ai", response: initialMessage }]);
-      setConversationSummary("");
-      setInterestRate(0);
-      setRecruiterName(user?.displayName || "");
-      setEmail(user?.email || "");
-    } catch (error) {
-      console.error("Error in initializeChat:", error);
-    } finally {
-      setLoading(false);
-      console.log("Chat initialization completed.");
-    }
+    //     setLoading(true);
+    //     console.log("Initializing chat with session ID:", sessionId);
+    //     console.log("User data:", user.displayName, user.email);
+    //     const prompt = `
+    // - You are Clara, an AI recruiter representative created by Dileepa Dilshan to showcase their development skills to recruiters.
+    // - You are now interacting with a person named ${user?.displayName}.
+    // - You can use a short form for ${user?.displayName} for ease of use and friendliness and greet the user.
+    // - You are designed to assist ${user?.displayName} in their interest in Dileepa's skills by providing information about  skills, projects, and education.
+    // - You will maintain a friendly and professional tone throughout the conversation.
+    // - You will not ask for personal information such as phone numbers or addresses.
+    // - You will not engage in any conversation that is not relevant to the job search process.
+    // - You will not provide any information that is not related to the job search process.
+    // - You will provide short and concise answers to the user's questions and add emojis for a friendly touch.
+    //   `;
+    //     try {
+    //       // Call the initChat function and await result
+    //       const initialMessage = await initChat(sessionId, prompt);
+    //       setChatHistory([{ type: "ai", response: initialMessage }]);
+    //       setConversationSummary("");
+    //       setInterestRate(0);
+    //       setRecruiterName(user?.displayName || "");
+    //       setEmail(user?.email || "");
+    //     } catch (error) {
+    //       console.error("Error in initializeChat:", error);
+    //     } finally {
+    //       setLoading(false);
+    //       console.log("Chat initialization completed.");
+    //     }
   };
 
   // Create new session
@@ -248,15 +241,17 @@ export default function SimpleChatTest() {
 
   // Leonardo.ai inspired color variables
   const colors = {
-    background: "#0d0c1d",
-    backgroundSecondary: "#13112b",
-    backgroundTertiary: "#171533",
-    accentPrimary: "#7b5cf5",
-    accentSecondary: "#a88bff",
-    accentTertiary: "#553dbf",
-    border: "#2e2852",
-    textPrimary: "#ffffff",
-    textSecondary: "#a8a8bc",
+    background: "#000000", // Pure black for deep focus
+    backgroundSecondary: "#0a0a0a", // Section contrast
+    backgroundTertiary: "#111111", // Chat bubbles, inputs
+
+    accentPrimary: "#1ed3d3", // Muted cyan — cool & intelligent
+    accentSecondary: "#c026d3", // Soft magenta — futuristic but elegant
+    accentTertiary: "#10b981", // Calmer teal — for status/hover
+
+    border: "#1f1f1f", // Slightly more visible than before
+    textPrimary: "#e5e7eb", // Off-white for less eye strain
+    textSecondary: "#94a3b8", // Muted bluish-gray for metadata
   };
 
   return (
@@ -297,7 +292,7 @@ export default function SimpleChatTest() {
                 <div className="flex items-center gap-2">
                   <User
                     avatarProps={{
-                      src: "https://res.cloudinary.com/dbjgffukp/image/upload/v1745491107/Leonardo_Phoenix_10_Create_a_futuristic_and_instantly_recogniz_2_opn01j.jpg",
+                      src: "https://res.cloudinary.com/dbjgffukp/image/upload/v1750799324/Leonardo_Anime_XL_Anime_style_portrait_of_Clara_a_futuristic_A_3_b46p8r.jpg",
                     }}
                     description="Recruiter Rep"
                     name="Clara"
@@ -318,7 +313,7 @@ export default function SimpleChatTest() {
                       <Menu size={18} />
                     </Button>
                   )}
-                  <ViewStats />
+
                   <Button
                     size="sm"
                     onClick={handleSignOut}
@@ -661,7 +656,7 @@ export default function SimpleChatTest() {
                             isExternal
                             href="https://x.com/jrgarciadev"
                             size="sm"
-                            style={{ color: colors.accentSecondary }}
+                            style={{ color: colors.accentPrimary }}
                           >
                             {user?.email || "Email not available"}
                           </Link>
@@ -676,41 +671,112 @@ export default function SimpleChatTest() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 }}
-                      className="mb-4 flex justify-center"
+                      className="mb-4 flex justify-center overflow-hidden"
                     >
                       <Card
-                        className="w-[240px] h-[240px] border-none"
+                        className="w-[450px] h-[260px] border-none"
                         style={{
                           background: `linear-gradient(135deg, ${colors.accentPrimary}, ${colors.accentTertiary})`,
                           borderColor: colors.border,
                           borderWidth: "1px",
                           borderStyle: "solid",
+                          overflow: "hidden",
                         }}
                       >
-                        <CardBody className="justify-center items-center pb-0">
-                          <CircularProgress
-                            classNames={{
-                              svg: "w-36 h-36 drop-shadow-md",
-                              indicator: "stroke-white",
-                              track: "stroke-white/10",
-                              value: "text-3xl font-semibold text-white",
-                            }}
-                            showValueLabel={true}
-                            strokeWidth={4}
-                            value={interestRate}
-                          />
-                        </CardBody>
-                        <CardFooter className="justify-center items-center pt-0">
-                          <Chip
-                            classNames={{
-                              base: "border-1 border-white/30",
-                              content: "text-white/90 text-small font-semibold",
-                            }}
-                            variant="bordered"
+                        <CardBody
+                          className="justify-center items-center p-6"
+                          style={{ overflow: "hidden" }}
+                        >
+                          <div
+                            className="w-full space-y-5"
+                            style={{ overflow: "hidden" }}
                           >
-                            Interest Percentage
-                          </Chip>
-                        </CardFooter>
+                            {/* Timeline Header */}
+                            <div className="text-center">
+                              <h3 className="text-lg font-semibold text-white mb-1">
+                                Progress Timeline
+                              </h3>
+                              <p className="text-white/70 text-xs">
+                                {Math.round(interestRate)}% Complete
+                              </p>
+                            </div>
+
+                            {/* Progress Bar */}
+                            <div className="relative">
+                              <div className="w-full bg-white/20 rounded-full h-3">
+                                <div
+                                  className="bg-white rounded-full h-3 transition-all duration-500 ease-out"
+                                  style={{ width: `${interestRate}%` }}
+                                />
+                              </div>
+
+                              {/* Timeline Markers with Images */}
+                              <div className="flex justify-between mt-2">
+                                {[
+                                  {
+                                    milestone: 0,
+                                    image: "/images/beginner-icon.png",
+                                    label: "Beginner",
+                                  },
+                                  {
+                                    milestone: 50,
+                                    image: "/images/intermediate-icon.png",
+                                    label: "Intermediate",
+                                  },
+                                  {
+                                    milestone: 100,
+                                    image: "/images/advanced-icon.png",
+                                    label: "Advanced",
+                                  },
+                                ].map(({ milestone, image, label }, index) => (
+                                  <div
+                                    key={milestone}
+                                    className="flex flex-col items-center"
+                                  >
+                                    <div
+                                      className={`w-10 h-10 rounded-full border-2 flex items-center justify-center overflow-hidden transition-all duration-300 ${
+                                        interestRate >= milestone
+                                          ? "bg-white border-white"
+                                          : "bg-white/20 border-white/50"
+                                      }`}
+                                    >
+                                      <img
+                                        src={image}
+                                        alt={label}
+                                        className={`w-6 h-6 object-contain transition-opacity duration-300 ${
+                                          interestRate >= milestone
+                                            ? "opacity-100"
+                                            : "opacity-40"
+                                        }`}
+                                      />
+                                    </div>
+                                    <span className="text-xs text-white/70 mt-1 font-medium">
+                                      {label}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* Current Status */}
+                            <div className="text-center">
+                              <Chip
+                                classNames={{
+                                  base: "border-1 border-white/30",
+                                  content:
+                                    "text-white/90 text-small font-semibold",
+                                }}
+                                variant="bordered"
+                              >
+                                {interestRate < 50
+                                  ? "Beginner Level"
+                                  : interestRate < 100
+                                    ? "Intermediate Level"
+                                    : "Advanced Level"}
+                              </Chip>
+                            </div>
+                          </div>
+                        </CardBody>
                       </Card>
                     </motion.div>
 
@@ -724,10 +790,9 @@ export default function SimpleChatTest() {
                       <Textarea
                         className="col-span-12 md:col-span-6 mb-6 md:mb-0 text-black"
                         label="Conversation Summary"
-                        labelPlacement="inside"
+                        labelPlacement=""
                         placeholder="No summary available"
                         variant="faded"
-                        color="secondary"
                         value={conversationSummary}
                       />
                     </motion.div>

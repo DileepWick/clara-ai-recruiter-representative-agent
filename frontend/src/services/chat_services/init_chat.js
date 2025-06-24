@@ -25,5 +25,6 @@ export const initChat = async (sessionId,prompt) => {
   } catch (error) {
     console.error("Error initializing chat:", error);
     return null; // Fallback message if API fails
+
   }
 }
