@@ -15,6 +15,8 @@ import {
   Coffee,
   Menu,
   X,
+  LogOut
+  ,Check
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@heroui/react";
@@ -323,16 +325,13 @@ export default function SimpleChatTest() {
                   <Button
                     size="sm"
                     onClick={handleSignOut}
-                    style={{
-                      padding: "8px 16px",
-                      background: "#dc3545",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                    }}
+                    color="danger"
+                    variant="ghost"
+                    isIconOnly
+
                   >
-                    Sign Out
+                    
+                    <LogOut size={18} />
                   </Button>
                 </div>
               </div>
@@ -597,12 +596,10 @@ export default function SimpleChatTest() {
                     className="absolute top-0 left-0 right-0 z-10 p-3 text-white rounded-t-lg flex justify-between items-center"
                     style={{
                       background: colors.backgroundSecondary,
-                      borderBottom: `1px solid ${colors.border}`,
                     }}
                   >
-                    <Chip variant="dot" color="success" className="text-white">
-                      Insights Panel
-                    </Chip>
+ 
+                  
                     {isMobile && (
                       <motion.button
                         whileTap={{ scale: 0.9 }}

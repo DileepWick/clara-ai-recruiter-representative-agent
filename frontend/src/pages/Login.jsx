@@ -242,13 +242,13 @@ const handleSignInWithGoogle = async () => {
               className="text-xs font-medium mb-2"
               style={{ color: colors.accentPrimary }}
             >
-              AI-POWERED RECRUITMENT INSIGHTS
+              AI-POWERED INSIGHTS
             </div>
             <p
               className="text-sm leading-relaxed"
               style={{ color: colors.textSecondary }}
             >
-              Real-time chat analysis • Sentiment detection • Automated
+              Real-time chat analysis • Sentiment detection • Automated engagement
               follow-ups
             </p>
           </div>
@@ -328,15 +328,14 @@ const handleSignInWithGoogle = async () => {
                 backgroundClip: "text",
               }}
             >
-              Smart Recruitment Analytics
+              She is Clara
             </h2>
             <p
               className="text-xl leading-relaxed mb-6"
               style={{ color: colors.textSecondary }}
             >
-              AI-powered chat analysis that detects recruiter sentiment,
-              automates follow-ups, and optimizes your job search strategy in
-              real-time.
+She’s your smart guide to learning more about me ,my work, background, and how I can help. 
+Clara will tailor your experience, keep track of what interests you, and follow up with insights just for you.
             </p>
             <div className="flex items-center space-x-4">
               <div
