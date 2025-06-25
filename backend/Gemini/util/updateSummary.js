@@ -33,9 +33,8 @@ async function updateSummary({
   - Update the json body. 
   - Reasons and provide exact engagement level as a percentage of the user in the summary. 
   - You mainly focus on the user's engagement , not the AI's response.
-  - You can only increase the engagement level, never decrease it.
-  - You can only increase the engagement level by 1% - 20%.
-  - You need explicitly mention the engagement level.
+  - The engagement level is determined by the variety and depth of the user's messages, as well as the AI's responses.
+  - You need explicitly mention the engagement level percentage in the summary.
   - When increasing the engagement level, consider the value of the latest user message and AI response.
   - Use a short bullet-point format for the overall summary. It should be concise but informative.
   - Include a timeline showing how engagement level changed over the session or across multiple sessions. Explain each change with its reason.
@@ -98,17 +97,6 @@ async function updateSummary({
     //Convert the response to JSON object
     const JsonObject = extractJsonFromText(result.response.text());
 
-    //Check for engagement type
-    if(JsonObject.engagementPercentage >= 20 && JsonObject.engagementPercentage < 50){
-      console.log("Casual Engagement Activated");
-      JsonObject.casualEngagementFollowupSent = true;
-    }else if(JsonObject.engagementPercentage >= 50 && JsonObject.engagementPercentage < 80){
-      console.log("Active Engagement Activated");
-      JsonObject.activeEngagementFollowupSent = true;
-    }else if(JsonObject.engagementPercentage >= 80 && JsonObject.engagementPercentage < 100){
-      console.log("Deep Engagement Activated");
-      JsonObject.deepEngagementFollowupSent = true;
-    }
 
     //update the recruiter interest information in the database
     const recruiterData = {
@@ -118,57 +106,81 @@ async function updateSummary({
       objections: JsonObject.objections,
       userName: userName,
       email: email,
-      casualEngagementFollowupSent: JsonObject.casualEngagementFollowupSent || false,
-      activeEngagementFollowupSent: JsonObject.activeEngagementFollowupSent || false,
-      deepEngagementFollowupSent: JsonObject.deepEngagementFollowupSent || false
     };
 
-    const saveResult = await saveOrUpdateRecruiterInterest(recruiterData);
+    // Save or update the recruiter interest information
+    const saveResultOuter = await saveOrUpdateRecruiterInterest(recruiterData);
 
-    if (saveResult.success) {
-      console.log("User info saved successfully ✅");
-      console.log("User Name:", recruiterData.userName);
-      console.log("Email:", recruiterData.email);
-      console.log("followupSent before:", followUpStatus);
-
-      //Send followup if needed
+    if (saveResultOuter.success) {
+     
       if (
-        recruiterData.engagementPercentage >= 50 &&
-        recruiterData.email !== null &&
-        recruiterData.userName !== null 
-        
+        saveResultOuter.data.engagementPercentage >= 25 &&
+        saveResultOuter.data.email !== null &&
+        saveResultOuter.data.userName !== null &&
+        saveResultOuter.data.casualEngagementFollowupSent === false
       ) {
-        console.log("Followup needed, sending summary to Make...🚀");
+        console.log("Casual Engagement Followup Detected. Sending followup...");
         const recruiterData = {
           sessionId: sessionId,
-          engagementPercentage: JsonObject.engagementPercentage,
-          followupSent: true,
+          engagementPercentage: saveResultOuter.data.engagementPercentage,
+          casualEngagementFollowupSent: true,
         };
-
         const saveResult = await saveOrUpdateRecruiterInterest(recruiterData);
-
-        console.log("followupSent after:", recruiterData.followupSent);
-
+      
         // Check if the save operation was successful
         if (saveResult.success) {
           console.log("Followup Sent successfully ✅");
           //Send summary to Make
-          SendSummaryToMake(JsonObject.summary, userName, email);
+          SendSummaryToMake(JsonObject.summary, userName, email,saveResultOuter.data.engagementPercentage);
         }
-
-        console.log("Summary sent to Make successfully.");
+      }if (
+        saveResultOuter.data.engagementPercentage >= 50 &&
+        saveResultOuter.data.email !== null &&
+        saveResultOuter.data.userName !== null &&
+        saveResultOuter.data.activeEngagementFollowupSent === false
+      ) {
+        console.log("Active Engagement Followup Detected. Sending followup...");
+        const recruiterData = {
+          sessionId: sessionId,
+          engagementPercentage: saveResultOuter.data.engagementPercentage,
+          activeEngagementFollowupSent: true,
+        };
+        const saveResult = await saveOrUpdateRecruiterInterest(recruiterData);
+      
+        // Check if the save operation was successful
+        if (saveResult.success) {
+          SendSummaryToMake(JsonObject.summary, userName, email,saveResultOuter.data.engagementPercentage);
+        }
+      }if (
+        saveResultOuter.data.engagementPercentage >= 75 &&
+        saveResultOuter.data.engagementPercentage < 100 &&
+        saveResultOuter.data.email !== null &&
+        saveResultOuter.data.userName !== null &&
+        saveResultOuter.data.deepEngagementFollowupSent === false
+      ) {
+        console.log("Deep Engagement Followup Detected. Sending followup...");
+        const recruiterData = {
+          sessionId: sessionId,
+          engagementPercentage: saveResultOuter.data.engagementPercentage,
+          deepEngagementFollowupSent: true,
+        };
+        const saveResult = await saveOrUpdateRecruiterInterest(recruiterData);
+      
+        // Check if the save operation was successful
+        if (saveResult.success) {
+          SendSummaryToMake(JsonObject.summary, userName, email,saveResultOuter.data.engagementPercentage);
+        }
       }
-    } else {
-      console.error("Error saving recruiter interest info:", saveResult.error);
-    }
+    } 
 
     //Send objections if has
-    if(recruiterData.objections !== null){
-      console.log("Reason No Match:", recruiterData.objections);
-      SendObjection(recruiterData.objections,recruiterData.summary);
-    }
+    // if(recruiterData.objections !== null){
+    //   console.log("Reason No Match:", recruiterData.objections);
+    //   SendObjection(recruiterData.objections,recruiterData.summary);
+    // }
 
     return JsonObject;
+
   } catch (error) {
     console.error("Summary Update Error:", error);
     return summary; // fallback to previous summary

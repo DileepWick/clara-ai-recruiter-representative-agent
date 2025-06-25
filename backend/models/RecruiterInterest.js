@@ -6,7 +6,6 @@ const recruiterInterestSchema = new mongoose.Schema({
   userName: { type: String },
   email: { type: String },
   summary: { type: String },
-  followupSent: { type: Boolean, default: false },
   casualEngagementFollowupSent: { type: Boolean, default: false },
   activeEngagementFollowupSent: { type: Boolean, default: false },
   deepEngagementFollowupSent: { type: Boolean, default: false },
