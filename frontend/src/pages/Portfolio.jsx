@@ -31,7 +31,6 @@ import {
 } from "@heroui/react";
 import { User, Link } from "@heroui/react";
 import { Textarea, Avatar } from "@heroui/react";
-import ViewStats from "../components/view_stats.jsx";
 import { useAuth } from "../contexts/AuthContext";
 
 // Main all-in-one component
@@ -54,6 +53,10 @@ export default function SimpleChatTest() {
   const messagesEndRef = useRef(null);
   const chatInputRef = useRef(null);
   const { user, signOut } = useAuth();
+
+  const userProfilePicture =
+    user?.photoURL ||
+    "https://lh3.googleusercontent.com/a/ACg8ocJ_Dy2vztjOMl0NpmBgI0OI102V5P6lFBtg2iNJ94f9uRnPoYY=s96-c";
 
   // Window size tracking for responsive design
   const [windowWidth, setWindowWidth] = useState(
@@ -111,34 +114,37 @@ export default function SimpleChatTest() {
 
   // Initialize chat - API call
   const initializeChat = async () => {
-        setLoading(true);
-        console.log("Initializing chat with session ID:", sessionId);
-        console.log("User data:", user.displayName, user.email);
-        const prompt = `
-    - You are Clara, an AI recruiter representative created by Dileepa Dilshan to showcase their development skills to recruiters.
+    setLoading(true);
+    console.log("Initializing chat with session ID:", sessionId);
+    console.log("User data:", user.displayName, user.email);
+    const prompt = `
+    - You are Clara, an AI assistant created by Dileepa Dilshan to showcase their development skills to recruiters.
     - You are now interacting with a person named ${user?.displayName}.
     - You can use a short form for ${user?.displayName} for ease of use and friendliness and greet the user.
-    - You are designed to assist ${user?.displayName} in their interest in Dileepa's skills by providing information about  skills, projects, and education.
-    - You will maintain a friendly and professional tone throughout the conversation.
-    - You will not ask for personal information such as phone numbers or addresses.
-    - You will not engage in any conversation that is not relevant to the job search process.
-    - You will not provide any information that is not related to the job search process.
-    - You will provide short and concise answers to the user's questions and add emojis for a friendly touch.
+    - You must not use formatting characters like markdown in your responses. Use emojis to format your responses instead.
+    - Clara will not break character and will always respond as Clara.
+    - Clara helps users with their questions and provides information about Dileepa's skills, projects, and interests.
+    - Clara give short and very simple and human like responses and very creative and unique with each response.
+    - Clara will use spacing well in her responses to make it more readable and engaging.
+    - Clara will not use any technical jargon or complex language.
+    - Clara will always be friendly and helpful.
+
+
       `;
-        try {
-          // Call the initChat function and await result
-          const initialMessage = await initChat(sessionId, prompt);
-          setChatHistory([{ type: "ai", response: initialMessage }]);
-          setConversationSummary("");
-          setInterestRate(0);
-          setRecruiterName(user?.displayName || "");
-          setEmail(user?.email || "");
-        } catch (error) {
-          console.error("Error in initializeChat:", error);
-        } finally {
-          setLoading(false);
-          console.log("Chat initialization completed.");
-        }
+    try {
+      // Call the initChat function and await result
+      const initialMessage = await initChat(sessionId, prompt);
+      setChatHistory([{ type: "ai", response: initialMessage }]);
+      setConversationSummary("");
+      setInterestRate(0);
+      setRecruiterName(user?.displayName || "");
+      setEmail(user?.email || "");
+    } catch (error) {
+      console.error("Error in initializeChat:", error);
+    } finally {
+      setLoading(false);
+      console.log("Chat initialization completed.");
+    }
   };
 
   // Create new session
@@ -348,7 +354,6 @@ export default function SimpleChatTest() {
                       onClick={() => handleQuickPromptClick(item.prompt)}
                       disabled={loading}
                       size="sm"
-                      
                     >
                       {item.text}
                     </Button>
@@ -381,7 +386,6 @@ export default function SimpleChatTest() {
                     disabled={loading || !inputValue.trim()}
                     size="md"
                     className="dark"
-
                     isIconOnly
                     style={{
                       backgroundColor: colors.accentPrimary,
@@ -596,7 +600,9 @@ export default function SimpleChatTest() {
                       borderBottom: `1px solid ${colors.border}`,
                     }}
                   >
-                    <Chip variant="dot" color="success" className="text-white">Insights Panel</Chip>
+                    <Chip variant="dot" color="success" className="text-white">
+                      Insights Panel
+                    </Chip>
                     {isMobile && (
                       <motion.button
                         whileTap={{ scale: 0.9 }}
@@ -623,12 +629,12 @@ export default function SimpleChatTest() {
                         border-radius: 3px;
                       }
                       .insight-panel-container::-webkit-scrollbar-thumb {
-                        background-color: ${colors.accentTertiary};
+                        background-color: ${colors.accentPrimary};
                         border-radius: 3px;
                         transition: background-color 0.3s;
                       }
                       .insight-panel-container::-webkit-scrollbar-thumb:hover {
-                        background-color: ${colors.accentPrimary};
+                        background-color: ${colors.backgroundSecondary};
                       }
                     `}</style>
 
@@ -647,7 +653,7 @@ export default function SimpleChatTest() {
                     >
                       <User
                         avatarProps={{
-                          src: user.photoURL,
+                          src: userProfilePicture,
                         }}
                         description={
                           <Link
@@ -692,24 +698,65 @@ export default function SimpleChatTest() {
                             {/* Clara Portrait Video */}
                             <div className="flex justify-center">
                               <div className="relative w-24 h-24 rounded-full overflow-hidden border-3 border-white/40 shadow-xl">
-                                <video
-                                  className="w-full h-full object-cover"
-                                  autoPlay
-                                  loop
-                                  muted
-                                  playsInline
-                                >
-                                  <source
-                                    src="https://res.cloudinary.com/dbjgffukp/video/upload/v1750806510/Generated_File_June_25_2025_-_4_18AM_fy310d.mp4"
-                                    type="video/mp4"
-                                  />
-                                  {/* Fallback image if video fails to load */}
-                                  <img
-                                    src="https://res.cloudinary.com/dbjgffukp/image/upload/v1750800029/Leonardo_Kino_XL_Animestyle_portrait_of_Clara_a_futuristic_fem_0_sugsfn.jpg"
-                                    alt="Clara Portrait"
+                                {interestRate <= 25 && (
+                                  <video
                                     className="w-full h-full object-cover"
-                                  />
-                                </video>
+                                    autoPlay
+                                    loop
+                                    muted
+                                    playsInline
+                                  >
+                                    <source
+                                      src="https://res.cloudinary.com/dbjgffukp/video/upload/v1750806792/Generated_File_June_25_2025_-_3_06AM_ki8byn.mp4"
+                                      type="video/mp4"
+                                    />
+                                  </video>
+                                )}
+
+                                {interestRate > 25 && interestRate <= 50 && (
+                                  <video
+                                    className="w-full h-full object-cover"
+                                    autoPlay
+                                    loop
+                                    muted
+                                    playsInline
+                                  >
+                                    {" "}
+                                    <source
+                                      src="https://res.cloudinary.com/dbjgffukp/video/upload/v1750802622/Generated_File_June_25_2025_-_3_11AM_eadqog.mp4"
+                                      type="video/mp4"
+                                    />
+                                  </video>
+                                )}
+                                {interestRate > 50 && interestRate <= 75 && (
+                                  <video
+                                    className="w-full h-full object-cover"
+                                    autoPlay
+                                    loop
+                                    muted
+                                    playsInline
+                                  >
+                                    <source
+                                      src="https://res.cloudinary.com/dbjgffukp/video/upload/v1750842939/Generated_File_June_25_2025_-_2_45PM_argyxl.mp4"
+                                      type="video/mp4"
+                                    />
+                                  </video>
+                                )}
+                                {interestRate > 75 && (
+                                  <video
+                                    className="w-full h-full object-cover"
+                                    autoPlay
+                                    loop
+                                    muted
+                                    playsInline
+                                  >
+                                    <source
+                                      src="https://res.cloudinary.com/dbjgffukp/video/upload/v1750806510/Generated_File_June_25_2025_-_4_18AM_fy310d.mp4"
+                                      type="video/mp4"
+                                    />
+                                  </video>
+                                )}
+
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
                               </div>
                             </div>
@@ -737,21 +784,21 @@ export default function SimpleChatTest() {
                               <div className="flex justify-between items-end mt-4 px-2">
                                 {[
                                   {
-                                    milestone: 20,
+                                    milestone: 25,
                                     image:
-                                      "https://res.cloudinary.com/dbjgffukp/image/upload/v1750800029/Leonardo_Kino_XL_Animestyle_portrait_of_Clara_a_futuristic_fem_0_sugsfn.jpg",
+                                      "https://res.cloudinary.com/dbjgffukp/image/upload/v1750842797/Screenshot_2025-06-25_144251_qqjtjp.png",
                                     label: "Casual",
                                     size: "w-12 h-12", // Base size
                                   },
                                   {
                                     milestone: 50,
                                     image:
-                                      "https://res.cloudinary.com/dbjgffukp/image/upload/v1750800029/Leonardo_Kino_XL_Animestyle_portrait_of_Clara_a_futuristic_fem_0_sugsfn.jpg",
+                                      "https://res.cloudinary.com/dbjgffukp/image/upload/v1750843106/Screenshot_2025-06-25_144748_ocfmoq.png",
                                     label: "Active",
                                     size: "w-16 h-16", // Medium size
                                   },
                                   {
-                                    milestone: 85,
+                                    milestone: 75,
                                     image:
                                       "https://res.cloudinary.com/dbjgffukp/image/upload/v1750806617/Screenshot_2025-06-25_044000_vo8obv.png",
                                     label: "Deep",
@@ -822,8 +869,6 @@ export default function SimpleChatTest() {
                         placeholder="Summary of the conversation will appear here..."
                         variant="flat"
                         value={conversationSummary}
-
-                      
                       />
                     </motion.div>
                   </div>

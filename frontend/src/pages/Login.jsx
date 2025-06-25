@@ -43,25 +43,37 @@ function LoginPage() {
     return () => unsubscribe();
   }, [navigate]);
 
-  const handleSignInWithGoogle = async () => {
-    setSigningIn(true);
-    setError("");
-    const provider = new GoogleAuthProvider();
+const handleSignInWithGoogle = async () => {
+  setSigningIn(true);
+  setError("");
 
-    try {
-      const result = await signInWithPopup(auth, provider);
-      console.log("Signed in successfully:", result.user.displayName);
-    } catch (error) {
-      console.error("Error signing in with Google:", error.message);
-      setError("Failed to sign in. Please try again.");
-    } finally {
-      setSigningIn(false);
-    }
-  };
+  const provider = new GoogleAuthProvider();
 
-  const handleGuestAccess = () => {
-    alert("Demo: Would redirect to /clara as guest");
-  };
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    // Force refresh token to get latest profile info
+    await user.getIdToken(true);
+
+    // Reload the user to update the profile data
+    await user.reload();
+
+    // Updated profile info
+    console.log("Signed in successfully:");
+    console.log("Name:", user.displayName);
+    console.log("Photo URL:", user.photoURL);
+
+    // Now update your app state if needed
+
+  } catch (error) {
+    console.error("Error signing in with Google:", error.message);
+    setError("Failed to sign in. Please try again.");
+  } finally {
+    setSigningIn(false);
+  }
+};
+
 
   if (loading) {
     return (

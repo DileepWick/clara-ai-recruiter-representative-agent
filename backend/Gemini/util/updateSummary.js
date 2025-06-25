@@ -33,6 +33,7 @@ async function updateSummary({
   - Update the json body. 
   - Reasons and provide exact engagement level as a percentage of the user in the summary. 
   - You mainly focus on the user's engagement , not the AI's response.
+  - You can only increase the engagement percentage by these values: 5%,10%,15%.
   - The engagement level is determined by the variety and depth of the user's messages, as well as the AI's responses.
   - You need explicitly mention the engagement level percentage in the summary.
   - When increasing the engagement level, consider the value of the latest user message and AI response.
