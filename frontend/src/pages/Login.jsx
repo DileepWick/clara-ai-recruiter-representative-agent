@@ -109,12 +109,12 @@ const handleSignInWithGoogle = async () => {
 
   return (
     <div
-      className="min-h-screen flex"
+      className="min-h-screen flex font-poppins"
       style={{ backgroundColor: colors.background }}
     >
       {/* Left Panel */}
       <div
-        className="w-full lg:w-1/2 flex flex-col justify-center px-8 lg:px-16 relative"
+        className="w-full lg:w-1/2 flex flex-col justify-center px-8 lg:px-16 relative font-poppins"
         style={{ backgroundColor: colors.backgroundSecondary }}
       >
         {/* Logo */}
@@ -128,7 +128,7 @@ const handleSignInWithGoogle = async () => {
               />
             </div>
             <span
-              className="text-xl font-semibold"
+              className="text-xl font-poppins"
               style={{ color: colors.textPrimary }}
             >
               Clara
@@ -140,7 +140,7 @@ const handleSignInWithGoogle = async () => {
         <div className="max-w-sm mx-auto w-full">
           <div className="text-center mb-12">
             <h1
-              className="text-4xl font-bold mb-3"
+              className="text-4xl font-poppins mb-3"
               style={{
                 background: `linear-gradient(135deg, ${colors.textPrimary}, ${colors.accentPrimary})`,
                 WebkitBackgroundClip: "text",
@@ -151,7 +151,7 @@ const handleSignInWithGoogle = async () => {
               Welcome Back
             </h1>
             <p
-              className="text-lg font-medium"
+              className="text-lg font-poppins"
               style={{ color: colors.textSecondary }}
             >
               Access Clara
@@ -160,7 +160,7 @@ const handleSignInWithGoogle = async () => {
 
           {error && (
             <div
-              className="mb-6 p-4 rounded-xl text-sm font-medium border"
+              className="mb-6 p-4 rounded-xl text-sm font-poppins border"
               style={{
                 backgroundColor: `${colors.backgroundTertiary}`,
                 borderColor: "#ef4444",
@@ -231,7 +231,7 @@ const handleSignInWithGoogle = async () => {
                     d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                   />
                 </svg>
-                <span className="relative z-10">Continue with Google</span>
+                <span className="relative z-10 ">Continue with Google</span>
               </>
             )}
           </button>
@@ -239,13 +239,13 @@ const handleSignInWithGoogle = async () => {
           {/* Additional Info */}
           <div className="mt-8 text-center">
             <div
-              className="text-xs font-medium mb-2"
+              className="text-xs font-poppins mb-2"
               style={{ color: colors.accentPrimary }}
             >
               AI-POWERED INSIGHTS
             </div>
             <p
-              className="text-sm leading-relaxed"
+              className="text-sm leading-relaxed font-poppins"
               style={{ color: colors.textSecondary }}
             >
               Real-time chat analysis • Sentiment detection • Automated engagement
@@ -320,7 +320,7 @@ const handleSignInWithGoogle = async () => {
         <div className="relative z-10 h-full flex items-end p-12">
           <div>
             <h2
-              className="text-3xl font-bold mb-4"
+              className="text-3xl font-poppins mb-4"
               style={{
                 background: `linear-gradient(135deg, ${colors.textPrimary}, ${colors.accentPrimary})`,
                 WebkitBackgroundClip: "text",
@@ -331,7 +331,7 @@ const handleSignInWithGoogle = async () => {
               She is Clara
             </h2>
             <p
-              className="text-xl leading-relaxed mb-6"
+              className="text-xl leading-relaxed mb-6 font-poppins"
               style={{ color: colors.textSecondary }}
             >
 She’s your smart guide to learning more about me ,my work, background, and how I can help. 
